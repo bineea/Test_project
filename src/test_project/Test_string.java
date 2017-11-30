@@ -12,7 +12,7 @@ public class Test_string {
 	public static void main(String[] args)
 	{
 		Test_string ts = new Test_string();
-		ts.test_contains();
+		ts.test_pattern();
 	}
 	
 	public void test_trim()
@@ -161,8 +161,10 @@ public class Test_string {
 	
 	public void test_pattern()
 	{
-		String number = "1.00";
-		Pattern pattern = Pattern.compile("^\\d{1,8}$");
+//		String number = "1.00";
+//		Pattern pattern = Pattern.compile("^\\d{1,8}$");
+		String number = "ssss123/.sdf";
+		Pattern pattern = Pattern.compile("^[^\\\\:/\\*\\?\\\"<>\\|]+\\.{1,1}[^\\:/\\*\\?\\\"<>\\|]+$");
 		Matcher matcher = pattern.matcher(number);
 		if(matcher.matches())
 		{

@@ -19,7 +19,6 @@ public class HibernateExecute {
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		User user = new User();
-		user.setId("002");
 		user.setName("test");
 		user.setAge(0);
 		user.setMobile("13012341234");

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
 public class Test_StringTOLocalDataTime {
 	public static void main(String[] args){
@@ -63,6 +64,10 @@ public class Test_StringTOLocalDataTime {
 		{
 			System.out.println("wrong"+e.getMessage());
 		}
+		
+		LocalDateTime dateTime5 = LocalDateTime.now();
+		String s5 = dateTime5.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm:ss", Locale.ENGLISH));
+		System.out.println("英文格式时间为："+s5);
 		
 		String q = "A1";
 		if(q.replaceAll(",", "").isEmpty())

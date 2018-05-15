@@ -1,5 +1,8 @@
 package test_project;
 
+/**
+ * synchronized是对该对象进行加锁，一个对象只有一把锁；若要多线程访问同一个对象的不同synchronized方法，也必须等待该线程执行完成释放锁，才能再次给对象加锁
+ */
 public class Test_mutableInteger {
 
 	private int value;

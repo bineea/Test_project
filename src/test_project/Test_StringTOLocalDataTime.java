@@ -68,6 +68,10 @@ public class Test_StringTOLocalDataTime {
 		LocalDateTime dateTime5 = LocalDateTime.now();
 		String s5 = dateTime5.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm:ss", Locale.ENGLISH));
 		System.out.println("英文格式时间为："+s5);
+		String s6 = dateTime5.format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS", Locale.ENGLISH));
+		System.out.println("英文格式时间为："+s6);
+		String s7 = dateTime5.format(DateTimeFormatter.ofPattern("MMM", Locale.CHINA));
+		System.out.println("英文格式时间为："+s7);
 		
 		String q = "A1";
 		if(q.replaceAll(",", "").isEmpty())

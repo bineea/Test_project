@@ -1,0 +1,9 @@
+一 MAVEN
+1. dependeacyManagement 只是表明依赖的优先选择，并不会import
+2. maven需要添加tomcat包的依赖，但是scope为provided
+3. maven项目的默认目录结构为src/main/java为源代码目录，可以修改为多源目录，但是需要安装build-helper-maven-plugin插件
+
+二 事务管理
+1. 事务注解开启：
+a. Proxy 代理模式
+b. Aspectj 编译时增强模式

@@ -22,11 +22,14 @@ import java.util.Arrays;
 public class Test_imagePHash {
     public static void main(String[] args) throws IOException {
         Test_imagePHash t = new Test_imagePHash();
-        File sourceImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1.jpg");
-        File image1 = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1-gray-b.jpg");
-        System.out.println(t.imagePHash(ImageIO.read(sourceImage)));
-        System.out.println(t.imagePHash(ImageIO.read(image1)));
-        t.isDiffence(t.imagePHash(ImageIO.read(sourceImage)), t.imagePHash(ImageIO.read(image1)));
+//        File sourceImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1.jpg");
+//        File image1 = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1-gray-b.jpg");
+//        System.out.println(t.imagePHash(ImageIO.read(sourceImage)));
+//        System.out.println(t.imagePHash(ImageIO.read(image1)));
+//        t.isDiffence(t.imagePHash(ImageIO.read(sourceImage)), t.imagePHash(ImageIO.read(image1)));
+        t.imageOppoDCT();
+        System.out.println(Math.cos(Math.PI / (double)4));
+        System.out.println(Math.cos(Math.PI * (double)3 / (double)4));
     }
 
     public String imagePHash(BufferedImage image) {
@@ -38,6 +41,36 @@ public class Test_imagePHash {
         int[] reduceImgDCT = reduceImgDCT(imgDCT, smallN);
         int avg = avgDCT(reduceImgDCT);
         return toHashCode(reduceImgDCT, avg);
+    }
+
+    public void image2DCT() throws IOException {
+        File sourceImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1.jpg");
+        File reduceImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1-reduce.jpg");
+        File resultImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1-result-DCT.jpg");
+//        BufferedImage reduce = reduceImage(ImageIO.read(sourceImage), 300, 300, false);
+//        BufferedImage gray = grayImage(reduce);
+//        ImageIO.write(gray,"jpg",reduceImage);
+        int[][] imgDCT = image2DCT(ImageIO.read(reduceImage), 300);
+        BufferedImage result = new BufferedImage(300,300,ImageIO.read(reduceImage).getType());
+        for(int w=0;w<300;w++) {
+            for(int h=0; h<300;h++) {
+                result.setRGB(w,h,imgDCT[w][h]);
+            }
+        }
+        ImageIO.write(result,"jpg",resultImage);
+    }
+
+    public void imageOppoDCT() throws IOException {
+        File sourceImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1-oppo.jpg");
+        File resultImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1-result-DCT.jpg");
+        int[][] imgOppoDCT = imageOppoDCT(ImageIO.read(resultImage), 300);
+        BufferedImage result = new BufferedImage(300,300,ImageIO.read(resultImage).getType());
+        for(int w=0;w<300;w++) {
+            for(int h=0; h<300;h++) {
+                result.setRGB(w,h,imgOppoDCT[w][h]);
+            }
+        }
+        ImageIO.write(result,"jpg",sourceImage);
     }
 
     public void image2gray() throws IOException {
@@ -108,19 +141,48 @@ public class Test_imagePHash {
                 double f = 0;
                 for(int x=0; x<n; x++) {
                     for(int y=0; y<n; y++) {
-                        f += image.getRGB(x,y) * Math.cos(u * Math.PI * (2 * x + 1) / (2 * n)) * Math.cos(v * Math.PI * (2 * y + 1) / (2 * n));
+                        f += (double)image.getRGB(x,y) * (double)Math.cos((double)u * (double)Math.PI * ((double)2 * (double)x + (double)1) / ((double)2 * (double)n)) * (double)Math.cos((double)v * (double)Math.PI * ((double)2 * (double)y + (double)1) / ((double)2 * (double)n));
                     }
                 }
                 if(u == 0 && v == 0) {
-                    fuv[u][v] = new Double(1 / n * f).intValue();
+                    fuv[u][v] = new Double((double)1 / (double)n * (double)f).intValue();
+                    System.out.println("f = " + f+"；1 / n * f = " + ((double)1 / (double)n * (double)f));
                 } else if ((u != 0 && v == 0) || (u == 0 && v != 0)) {
-                    fuv[u][v] = new Double(Math.sqrt(2) / n * f).intValue();
+                    fuv[u][v] = new Double((double)Math.sqrt(2) / (double)n * (double)f).intValue();
+                    System.out.println("f = " + f+"；Math.sqrt(2) / n * f = " + ((double)Math.sqrt(2) / (double)n * (double)f));
                 } else {
-                    fuv[u][v] = new Double(2 / n * f).intValue();
+                    fuv[u][v] = new Double((double)2 / (double)n * (double)f).intValue();
+                    System.out.println("f = " + f+"；2 / n * f = " + ((double)2 / (double)n * (double)f));
                 }
+                System.out.println("~~~转换为DCT【"+u+"，"+v+"】像素为:"+fuv[u][v]);
             }
         }
         return fuv;
+    }
+
+    public int[][] imageOppoDCT(BufferedImage image, int n) {
+        int[][] fxy = new int[n][n];
+        for(int x=0; x<n; x++) {
+            for(int y=0; y<n; y++) {
+                double f = 0;
+                for(int u=0; u<n; u++) {
+                    for(int v=0; v<n; v++) {
+                        double a = 0;
+                        if(u ==0 && v==0) {
+                            a = (double) 1 / (double)n * (double)image.getRGB(u,v);
+                        } else if((u != 0 && v == 0) || (u == 0 && v != 0)) {
+                            a = (double)Math.sqrt(2) / (double)n * (double)image.getRGB(u,v);
+                        } else {
+                            a = (double) 2 / (double)n * (double)image.getRGB(u,v);
+                        }
+                        f += a * ((double)image.getRGB(u,v) * (double)Math.cos(((double)2 * (double)x + (double)1) * (double)u * (double)Math.PI / ((double)2 * (double)n))) * (double)Math.cos(((double)2 * (double)y + (double)1) * (double)v * (double)Math.PI / ((double)2 * (double)n));
+                    }
+                }
+                fxy[x][y] = new Double(f).intValue();
+                System.out.println("~~~DCT反转换为【"+x+"，"+y+"】像素为:"+fxy[x][y]);
+            }
+        }
+        return fxy;
     }
 
     public int[] reduceImgDCT(int[][] imgDCT, int smallN) {

@@ -17,6 +17,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 public class Test_imagePHash {
@@ -27,9 +28,8 @@ public class Test_imagePHash {
 //        System.out.println(t.imagePHash(ImageIO.read(sourceImage)));
 //        System.out.println(t.imagePHash(ImageIO.read(image1)));
 //        t.isDiffence(t.imagePHash(ImageIO.read(sourceImage)), t.imagePHash(ImageIO.read(image1)));
-        t.imageOppoDCT();
-        System.out.println(Math.cos(Math.PI / (double)4));
-        System.out.println(Math.cos(Math.PI * (double)3 / (double)4));
+        t.image2DCT();
+        t.image2IDCT();
     }
 
     public String imagePHash(BufferedImage image) {
@@ -47,27 +47,27 @@ public class Test_imagePHash {
         File sourceImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1.jpg");
         File reduceImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1-reduce.jpg");
         File resultImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1-result-DCT.jpg");
-//        BufferedImage reduce = reduceImage(ImageIO.read(sourceImage), 300, 300, false);
-//        BufferedImage gray = grayImage(reduce);
-//        ImageIO.write(gray,"jpg",reduceImage);
-        int[][] imgDCT = image2DCT(ImageIO.read(reduceImage), 300);
-        BufferedImage result = new BufferedImage(300,300,ImageIO.read(reduceImage).getType());
-        for(int w=0;w<300;w++) {
-            for(int h=0; h<300;h++) {
+        BufferedImage reduce = reduceImage(ImageIO.read(sourceImage), 300, 300, false);
+        BufferedImage gray = grayImage(reduce);
+        ImageIO.write(gray,"jpg",reduceImage);
+        int[][] imgDCT = image2DCT(gray, 30);
+        BufferedImage result = new BufferedImage(30,30,gray.getType());
+        for(int w=0;w<30;w++) {
+            for(int h=0; h<30;h++) {
                 result.setRGB(w,h,imgDCT[w][h]);
             }
         }
         ImageIO.write(result,"jpg",resultImage);
     }
 
-    public void imageOppoDCT() throws IOException {
+    public void image2IDCT() throws IOException {
         File sourceImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1-oppo.jpg");
         File resultImage = new File("D:\\Project\\java\\Test_project\\src\\resource\\img\\post1-result-DCT.jpg");
-        int[][] imgOppoDCT = imageOppoDCT(ImageIO.read(resultImage), 300);
-        BufferedImage result = new BufferedImage(300,300,ImageIO.read(resultImage).getType());
-        for(int w=0;w<300;w++) {
-            for(int h=0; h<300;h++) {
-                result.setRGB(w,h,imgOppoDCT[w][h]);
+        int[][] imgIDCT = image2IDCT(ImageIO.read(resultImage), 30);
+        BufferedImage result = new BufferedImage(30,30,ImageIO.read(resultImage).getType());
+        for(int w=0;w<30;w++) {
+            for(int h=0; h<30;h++) {
+                result.setRGB(w,h,imgIDCT[w][h]);
             }
         }
         ImageIO.write(result,"jpg",sourceImage);
@@ -136,23 +136,30 @@ public class Test_imagePHash {
     // 二维离散余弦变换的正变换公式，其中f(x,y)是空间域一个N*N的二维向量元素，即一个N*N的矩阵，x,y = 0,1,2，…，N-1;F(U,V)是经计算后得到的变换域矩阵，u,v = 0,1,2，….，N-1.求和可分性是二维离散余弦变换的一个重要特征
     public int[][] image2DCT(BufferedImage image, int n) {
         int[][] fuv = new int[n][n];
+        BigDecimal piDec = new BigDecimal(Double.toString(Math.PI));
+        BigDecimal coefficient2 = new BigDecimal(Integer.toString(2));
+        BigDecimal coefficient1 = new BigDecimal(Integer.toString(1));
+        BigDecimal nDec = new BigDecimal(Integer.toString(n));
         for(int u=0; u<n; u++) {
             for(int v=0; v<n; v++) {
-                double f = 0;
+                BigDecimal f = new BigDecimal(Integer.toString(0));
+                BigDecimal uDec = new BigDecimal(Integer.toString(u));
+                BigDecimal vDec = new BigDecimal(Integer.toString(v));
                 for(int x=0; x<n; x++) {
                     for(int y=0; y<n; y++) {
-                        f += (double)image.getRGB(x,y) * (double)Math.cos((double)u * (double)Math.PI * ((double)2 * (double)x + (double)1) / ((double)2 * (double)n)) * (double)Math.cos((double)v * (double)Math.PI * ((double)2 * (double)y + (double)1) / ((double)2 * (double)n));
+                        BigDecimal sourceDec = new BigDecimal(Integer.toString(image.getRGB(x,y)));
+                        BigDecimal xDec = new BigDecimal(Integer.toString(x));
+                        BigDecimal yDec = new BigDecimal(Integer.toString(y));
+                        f = f.add(sourceDec.multiply(new BigDecimal(Double.toString(Math.cos(uDec.multiply(piDec).multiply(coefficient2.multiply(xDec).add(coefficient1)).divide(coefficient2.multiply(nDec),15,BigDecimal.ROUND_HALF_UP).doubleValue()))))
+                                           .multiply(new BigDecimal(Double.toString(Math.cos(vDec.multiply(piDec).multiply(coefficient2.multiply(yDec).add(coefficient1)).divide(coefficient2.multiply(nDec),15,BigDecimal.ROUND_HALF_UP).doubleValue())))));
                     }
                 }
                 if(u == 0 && v == 0) {
-                    fuv[u][v] = new Double((double)1 / (double)n * (double)f).intValue();
-                    System.out.println("f = " + f+"；1 / n * f = " + ((double)1 / (double)n * (double)f));
+                    fuv[u][v] = new Double(Math.rint(coefficient1.divide(nDec,15,BigDecimal.ROUND_HALF_UP).multiply(f).doubleValue())).intValue();
                 } else if ((u != 0 && v == 0) || (u == 0 && v != 0)) {
-                    fuv[u][v] = new Double((double)Math.sqrt(2) / (double)n * (double)f).intValue();
-                    System.out.println("f = " + f+"；Math.sqrt(2) / n * f = " + ((double)Math.sqrt(2) / (double)n * (double)f));
+                    fuv[u][v] = new Double(Math.rint(new BigDecimal(Double.toString(Math.sqrt(2))).divide(nDec,15,BigDecimal.ROUND_HALF_UP).multiply(f).doubleValue())).intValue();
                 } else {
-                    fuv[u][v] = new Double((double)2 / (double)n * (double)f).intValue();
-                    System.out.println("f = " + f+"；2 / n * f = " + ((double)2 / (double)n * (double)f));
+                    fuv[u][v] = new Double(Math.rint(coefficient2.divide(nDec,15,BigDecimal.ROUND_HALF_UP).multiply(f).doubleValue())).intValue();
                 }
                 System.out.println("~~~转换为DCT【"+u+"，"+v+"】像素为:"+fuv[u][v]);
             }
@@ -160,25 +167,35 @@ public class Test_imagePHash {
         return fuv;
     }
 
-    public int[][] imageOppoDCT(BufferedImage image, int n) {
+    public int[][] image2IDCT(BufferedImage image, int n) {
         int[][] fxy = new int[n][n];
+        BigDecimal piDec = new BigDecimal(Double.toString(Math.PI));
+        BigDecimal coefficient2 = new BigDecimal(Integer.toString(2));
+        BigDecimal coefficient1 = new BigDecimal(Integer.toString(1));
+        BigDecimal nDec = new BigDecimal(Integer.toString(n));
         for(int x=0; x<n; x++) {
             for(int y=0; y<n; y++) {
-                double f = 0;
+                BigDecimal f = new BigDecimal(Integer.toString(0));
+                BigDecimal xDec = new BigDecimal(Integer.toString(x));
+                BigDecimal yDec = new BigDecimal(Integer.toString(y));
                 for(int u=0; u<n; u++) {
                     for(int v=0; v<n; v++) {
-                        double a = 0;
+                        BigDecimal a = new BigDecimal(Integer.toString(0));
+                        BigDecimal resultDec = new BigDecimal(Integer.toString(image.getRGB(u,v)));
+                        BigDecimal uDec = new BigDecimal(Integer.toString(u));
+                        BigDecimal vDec = new BigDecimal(Integer.toString(v));
                         if(u ==0 && v==0) {
-                            a = (double) 1 / (double)n * (double)image.getRGB(u,v);
+                            a = coefficient1.divide(nDec,15,BigDecimal.ROUND_HALF_UP).multiply(resultDec);
                         } else if((u != 0 && v == 0) || (u == 0 && v != 0)) {
-                            a = (double)Math.sqrt(2) / (double)n * (double)image.getRGB(u,v);
+                            a = new BigDecimal(Double.toString(Math.sqrt(2))).divide(nDec,15,BigDecimal.ROUND_HALF_UP).multiply(resultDec);
                         } else {
-                            a = (double) 2 / (double)n * (double)image.getRGB(u,v);
+                            a = coefficient2.divide(nDec,15,BigDecimal.ROUND_HALF_UP).multiply(resultDec);
                         }
-                        f += a * ((double)image.getRGB(u,v) * (double)Math.cos(((double)2 * (double)x + (double)1) * (double)u * (double)Math.PI / ((double)2 * (double)n))) * (double)Math.cos(((double)2 * (double)y + (double)1) * (double)v * (double)Math.PI / ((double)2 * (double)n));
+                        f = f.add(a.multiply(new BigDecimal(Double.toString(Math.cos(coefficient2.multiply(xDec).add(coefficient1).multiply(uDec).multiply(piDec).divide(coefficient2.multiply(nDec),15,BigDecimal.ROUND_HALF_UP).doubleValue()))))
+                                   .multiply(new BigDecimal(Double.toString(Math.cos(coefficient2.multiply(yDec).add(coefficient1).multiply(vDec).multiply(piDec).divide(coefficient2.multiply(nDec),15,BigDecimal.ROUND_HALF_UP).doubleValue())))));
                     }
                 }
-                fxy[x][y] = new Double(f).intValue();
+                fxy[x][y] = new Double(Math.rint(f.doubleValue())).intValue();
                 System.out.println("~~~DCT反转换为【"+x+"，"+y+"】像素为:"+fxy[x][y]);
             }
         }

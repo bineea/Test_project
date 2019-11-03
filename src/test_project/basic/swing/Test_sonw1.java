@@ -1,4 +1,4 @@
-package test_project;
+package test_project.basic.swing;
 
 import java.awt.Color;
 import java.awt.Font;

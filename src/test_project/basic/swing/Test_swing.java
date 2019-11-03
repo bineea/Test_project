@@ -1,4 +1,4 @@
-package test_project;
+package test_project.basic.swing;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

@@ -1,4 +1,4 @@
-package test_project;
+package test_project.basic.http;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

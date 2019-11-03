@@ -1,4 +1,4 @@
-package test_project;
+package test_project.basic.swing;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,9 +13,9 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-public class Test_snow2 {
+public class Test_snow3 {
 	public static void main(String[] args) {
-		MainFrame2 mf = new MainFrame2();
+		MainFrame3 mf = new MainFrame3();
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -24,16 +24,16 @@ public class Test_snow2 {
 	}
 }
 
-class MainFrame2 extends JFrame {
+class MainFrame3 extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-	public static final int SNOW_NUM = 400;
+	public static final int SNOW_NUM = 100;
 	public static final int SPEED = 20;
 
 	private int[] xs = new int[scrSize.width];
 	private int[] ys = new int[scrSize.height];
 
-	public MainFrame2() {
+	public MainFrame3() {
 		initSnow();
 		fallSnow();
 
@@ -50,7 +50,6 @@ class MainFrame2 extends JFrame {
 		}
 	}
 
-	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		try {

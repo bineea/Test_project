@@ -1,5 +1,8 @@
 package test_project.jvm.OOM;
 
+//虚拟机栈和本地方法栈溢出
+//-verbose:gc -Xss128k
+
 public class Test_oom_stack_single_thread {
 	
 	private int stackLength = -1;

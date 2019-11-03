@@ -4,7 +4,8 @@ import java.lang.reflect.Field;
 
 import sun.misc.Unsafe;
 
-
+//本机直接内存溢出
+//-verbose:gc -Xmx20M -XX:MaxDirectMemorySize=10M
 
 public class Test_oom_directMemory {
 	

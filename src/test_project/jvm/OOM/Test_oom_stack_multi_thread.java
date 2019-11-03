@@ -1,5 +1,8 @@
 package test_project.jvm.OOM;
 
+//虚拟机栈和本地方法栈溢出
+//-verbose:gc -Xss2m
+
 public class Test_oom_stack_multi_thread {
 	
 	private void dontStop()

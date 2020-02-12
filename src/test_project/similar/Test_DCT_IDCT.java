@@ -1,4 +1,4 @@
-package test_project;
+package test_project.similar;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -8,7 +8,7 @@ public class Test_add {
 		}
 		Test_add dd = new Test_add();
 		int x=0;
-		Integer y = new Integer(0);
+		Integer y = Integer.valueOf(0);
 		dd.add(1,y);
 		System.out.println("x="+x);
 		System.out.println("y="+y);

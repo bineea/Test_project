@@ -18,7 +18,7 @@ import java.util.Map;
  *
  */
 
-public class Test_12_array_short_route {
+public class Test_12_array_exist_route_dfs {
 
 	public boolean exist_first(char[][] board, String word) {
 		if(word.length() > (board.length * board[0].length))
@@ -114,7 +114,7 @@ public class Test_12_array_short_route {
 	}
 	
 	public static void main(String[] args) {
-		Test_12_array_short_route test = new Test_12_array_short_route();
+		Test_12_array_exist_route_dfs test = new Test_12_array_exist_route_dfs();
 		
 		char[][] board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
 		String word = "ABCCED";

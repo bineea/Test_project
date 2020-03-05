@@ -12,12 +12,15 @@ package test_project.leetcode;
  * Sn=a1*n+[n*(n-1)*d]/2或Sn=[n*(a1+an)]/2
  * an=a1+(n-1)*d
  * 
+ * 1.不断遍历所有人，直到糖被分完；
+ * 2.可以通过等差直接计算每个人的最终结果，实现只遍历一次！！！
+ * 
  * @author bineea
  *
  */
 public class Test_15_distribute_candy {
 
-	public int[] distributeCandies(int candies, int num_people) {
+	public int[] distributeCandies_BL(int candies, int num_people) {
 		int[] all_people = new int[num_people];
 		
 		int n = 1;
@@ -36,10 +39,15 @@ public class Test_15_distribute_candy {
 		return all_people;
     }
 	
+	public int[] distributeCandies_FINAL(int candies, int num_people) {
+		
+		return null;
+	}
+	
 	public static void main(String[] args) {
 		Test_15_distribute_candy test = new Test_15_distribute_candy();
 		System.out.println((int)Math.floor(Math.sqrt(8.0)));
-		int[] ans1 = test.distributeCandies(7, 4);
+		int[] ans1 = test.distributeCandies_BL(7, 4);
 		for(int i=0; i<ans1.length; i++) {
 			System.out.println(ans1[i]);
 		}

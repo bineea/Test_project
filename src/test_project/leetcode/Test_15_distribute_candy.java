@@ -13,8 +13,14 @@ package test_project.leetcode;
  * an=a1+(n-1)*d
  * 
  * 1.不断遍历所有人，直到糖被分完；
- * 2.可以通过等差直接计算每个人的最终结果，实现只遍历一次！！！
+ * 2.可以通过等差直接计算每个人的最终结果，实现只遍历一次！仔细计算，你会发现横、竖都是等差数列
  * 
+ * 例如：输入60,  4
+ * 第1次给的糖果数量：[1,2,3,4]
+ * 第2次给的糖果数量：[5,6,7,8]
+ * 第3次给的糖果数量：[9,10]
+ * 
+ * 每次给的糖果数量横、竖都是等差数列，完全是等差数列的求和！！！
  * @author bineea
  *
  */
@@ -39,15 +45,34 @@ public class Test_15_distribute_candy {
 		return all_people;
     }
 	
-	public int[] distributeCandies_FINAL(int candies, int num_people) {
-		
-		return null;
+	public int[] distributeCandies_TRY(int candies, int num_people) {
+		int max_people = (int)Math.floor((Math.sqrt((double)1 + (double)4 * (double)1 * (double)candies * (double)2) - 1 ) * 0.5);
+		int surplus_candy = candies - max_people * (max_people + 1)  / 2;
+		int multiple = (int)Math.floor((double)max_people / (double)num_people);
+		int[] all_people = new int[num_people];
+		for(int i=0; i<num_people && i<max_people; i++) {
+			if(multiple == 0 || multiple == 1) {
+				all_people[i] = (int)(1 + i);
+			} else {
+				all_people[i] = (int)((1 + (i + 1 - 1)) * multiple + multiple * (multiple - 1) * num_people * 0.5);
+			}
+			
+			if(num_people <= max_people && i < (max_people - num_people * multiple)) {
+				all_people[i] += 1 + (i + 1 + multiple * num_people - 1) * 1;
+			}
+		}
+		if(num_people > max_people) {
+			all_people[max_people] += surplus_candy;
+		} else {
+			all_people[max_people - num_people * multiple] += surplus_candy;
+		}
+		return all_people;
 	}
 	
 	public static void main(String[] args) {
 		Test_15_distribute_candy test = new Test_15_distribute_candy();
-		System.out.println((int)Math.floor(Math.sqrt(8.0)));
-		int[] ans1 = test.distributeCandies_BL(7, 4);
+		//System.out.println((int)Math.floor(Math.sqrt(8.0)));
+		int[] ans1 = test.distributeCandies_TRY(7,4);
 		for(int i=0; i<ans1.length; i++) {
 			System.out.println(ans1[i]);
 		}

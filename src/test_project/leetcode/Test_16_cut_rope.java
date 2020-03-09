@@ -42,11 +42,11 @@ public class Test_16_cut_rope {
 		int res = 0;
 		if(n >= 4) {
 			if(x == 1) {
-				res = 2 * 2 * (int)Math.pow(3, count - 1);
+				res = (int) (2 * 2 * Math.pow(3, count - 1));
 			} else if(x == 2) {
-				res = 2 * 1 * (int)Math.pow(3, count);
+				res = (int) (2 * 1 * Math.pow(3, count));
 			} else {
-				res = (int)Math.pow(3, count);
+				res = (int) (Math.pow(3, count));
 			}
 		} else {
 			if(n == 0 || n == 1)
@@ -60,6 +60,7 @@ public class Test_16_cut_rope {
     }
 	
 	public static void main(String[] args) {
-		
+		Test_16_cut_rope test = new Test_16_cut_rope();
+		System.out.println(test.cuttingRope(10));
 	}
 }

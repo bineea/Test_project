@@ -36,6 +36,7 @@ package test_project.leetcode;
  */
 public class Test_16_cut_rope {
 
+	//有可能出现精度丢失！！！
 	public int cuttingRope(int n) {
 		int count = n / 3;
 		int x = n % 3;

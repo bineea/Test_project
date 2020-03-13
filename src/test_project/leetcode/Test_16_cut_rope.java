@@ -1,5 +1,8 @@
 package test_project.leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），每段绳子的长度记为 k[0],k[1]...k[m] 。请问 k[0]*k[1]*...*k[m] 可能的最大乘积是多少？
  * 例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
@@ -29,15 +32,15 @@ package test_project.leetcode;
  * 所以把求解 F(n) 的问题分解成求解F(n-1)的问题，以此类推，直到求解到 F(2)时，F(2)=1，递推回去，问题就得到了解决。这用到的就是分治的思想。
  * 
  * 3.【自下向上】使用动态规划，从已知值 F(2)逐步迭代到目标值 F(n)，它是一种自底向上的方法
- * 
+ * F(n) = max(i * (n - 1), i * F(n - 1));从F(2)逐步迭代至F(n)
  * 
  * @author binee
  *
  */
 public class Test_16_cut_rope {
 
-	//有可能出现精度丢失！！！
-	public int cuttingRope(int n) {
+	//int类型数据可能溢出
+	public int cuttingRope_law(int n) {
 		int count = n / 3;
 		int x = n % 3;
 		int res = 0;
@@ -60,8 +63,43 @@ public class Test_16_cut_rope {
 		return res;
     }
 	
+	Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+	public int cuttingRope_BL(int n) {
+		if(n == 0 || n == 1)
+			return 0;
+		if(n == 2)
+			return 1;
+		if(n == 3)
+			return 2;
+		if(map.get(n) != null) {
+			return map.get(n);
+		}
+		int res = 0;
+		for(int i=1; i<=n-2; i++) {
+			//如果进行取余运算的话，就无法使用max函数比较数据大小！！！
+			res = Math.max(res, Math.max(i * cuttingRope_BL(n-i), i * (n-i))) ;
+		}
+		map.put(n, res);
+		return res;
+		
+	}
+	
+	public int cuttingRepo_FINAL(int n) {
+		int res = 0;
+		
+		int[] dp = new int[n+1];
+		dp[2] = 1;
+		for(int x=3; x<=n; x++) {
+			for(int y=1; y<x; y++) {
+				dp[x] = Math.max(dp[x], Math.max(y * (x - y), y * dp[x - y]));
+			}
+		}
+		res = dp[n];
+		return res;
+	}
+	
 	public static void main(String[] args) {
 		Test_16_cut_rope test = new Test_16_cut_rope();
-		System.out.println(test.cuttingRope(10));
+		System.out.println(test.cuttingRepo_FINAL(10));
 	}
 }

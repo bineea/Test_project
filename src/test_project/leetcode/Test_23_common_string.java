@@ -57,6 +57,14 @@ public class Test_23_common_string {
 		return result;
 	}
 	
+	public  String gcdOfStrings_FINAL(String str1, String str2) {
+		String result = "";
+		
+		
+		
+		return result;
+	}
+	
 	public static void main(String[]  args) {
 		Test_23_common_string test = new Test_23_common_string();
 		System.out.println(test.gcdOfStrings_BL("ABABAB", "ABAB"));

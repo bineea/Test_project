@@ -16,7 +16,7 @@ package test_project.leetcode;
 public class Test_22_diameter_binaryTree {
 
 	
-	public int diameterOfBinaryTree(TreeNode root) {
+	public int diameterOfBinaryTree_dfs(TreeNode root) {
 		int res = 0;
 		
 		
@@ -36,6 +36,6 @@ public class Test_22_diameter_binaryTree {
 	
 	public static void main(String[] args) {
 		Test_22_diameter_binaryTree test = new Test_22_diameter_binaryTree();
-		System.out.println(test.diameterOfBinaryTree(null));
+		System.out.println(test.diameterOfBinaryTree_dfs(null));
 	}
 }

@@ -17,6 +17,10 @@ public class Test_bubbling_sort {
 	}
 
 	public void bubblingSort(int[] num) {
+		if(num == null || num.length < 2) {
+			System.out.println("待排序数组无法排序，数组为空或者数组长度小于2");
+			return;
+		}
 		//第一层for循环控制冒泡次数，每次冒泡将出现当前最大的数值，长度为n的数组需要n-1个最大的数值，所以循环为0~n-2共n-1次
 		for(int x=0; x<num.length-1; x++) {
 			//第二层for循环比对相邻的两个数值；第二层循环不再循环到arr.length - 1，因为外面的x循环递增一次,说明数组最后就多了一个排好序的大泡泡

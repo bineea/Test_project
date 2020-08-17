@@ -46,6 +46,12 @@ public class Test_proxy_handler {
 //					}
 //					
 //				});
+//		Helloworld hi = (Helloworld) Proxy.newProxyInstance(
+//				Helloworld.class.getClassLoader(), new Class[] { Helloworld.class },
+//				(proxyObj, method, args) -> {
+//					// TODO Auto-generated method stub
+//					return null;
+//				});
 		Helloworld hi = (Helloworld) Proxy.newProxyInstance(
 				Helloworld.class.getClassLoader(), new Class[] { Helloworld.class },
 				new InvocationHandler() {

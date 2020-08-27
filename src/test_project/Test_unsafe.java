@@ -49,6 +49,8 @@ public class Test_unsafe {
         System.out.println("tmp:"+tmp);*/
 
         //Unsafe实现具体cas操作
+        
+        //获取非静态属性Field在对象实例中的偏移量，读写对象的非静态属性时会用到这个偏移量。
         final long x_offset = UNSAFE.objectFieldOffset(test_unsafe.getClass().getDeclaredField("x"));
 
         new Thread(new Runnable() {
@@ -56,7 +58,10 @@ public class Test_unsafe {
             public void run() {
                 try {
                     while(true) {
-                        int tmp = UNSAFE.getInt(test_unsafe, x_offset);
+                    	//对象的指定偏移地址处读取一个int值，并保证读取操作的可见性和有序性。
+                        int tmp = UNSAFE.getIntVolatile(test_unsafe, x_offset);
+                        
+                        //比较对象的x_offset处内存位置中的值和期望的值，如果相同则更新。此更新是不可中断的。
                         if(UNSAFE.compareAndSwapInt(test_unsafe, x_offset, tmp, tmp+=1)) {
                             System.out.println("~~~1:"+tmp);
                         }
@@ -73,7 +78,10 @@ public class Test_unsafe {
             public void run() {
                 try {
                     while(true) {
+                    	//对象的指定偏移地址处读取一个int值，并保证读取操作的可见性和有序性。
                         int tmp = UNSAFE.getInt(test_unsafe, x_offset);
+                        
+                        //比较对象的x_offset处内存位置中的值和期望的值，如果相同则更新。此更新是不可中断的。
                         if(UNSAFE.compareAndSwapInt(test_unsafe, x_offset, tmp, tmp+=1)) {
                             System.out.println("~~~2:"+tmp);
                         }

@@ -13,13 +13,22 @@ public class Test_oom_heap {
 		
 	}
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws InterruptedException
 	{
-		List<OOMObject> list = new ArrayList<OOMObject>();
-		while(true)
-		{
-			list.add(new OOMObject());
-		}
+		Thread thread = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				List<OOMObject> list = new ArrayList<OOMObject>();
+				while(true)
+				{
+					list.add(new OOMObject());
+				}
+			}
+		});
+		
+		thread.start();
+		thread.join();
 	}
 
 }

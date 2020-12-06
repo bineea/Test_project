@@ -1,4 +1,4 @@
-package test_project;
+package test_project.basic.proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

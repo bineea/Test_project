@@ -94,10 +94,13 @@ public class Test_proxy_handler {
 	public Object proxyNewIntenceHandler(Object target) {
 		try {
 			/*
-			 * 返回代理类的 java.lang.Class 对象 参数1-loader：代理类的类加载器 参数2-interfaces：代理类要实现的接口列表
-			 * ·interfaces 数组中的所有 Class 对象必须表示接口，而不能表示类或基本类型； ·interfaces 数组中的两个元素不能引用同一
-			 * Class 对象； ·所有接口类型的名称通过特定的类加载器必须可见换句话说，对于类加载器 cl 和所有接口 i，以下表达式必须为 true：
-			 * Class.forName(i.getName(), false, cl) == i； ·所有非公共接口必须位于同一包中；
+			 * 返回代理类的 java.lang.Class 对象 
+			 * 参数1-loader：代理类的类加载器 
+			 * 参数2-interfaces：代理类要实现的接口列表
+			 * ·interfaces 数组中的所有 Class 对象必须表示接口，而不能表示类或基本类型；
+			 * ·interfaces 数组中的两个元素不能引用同一 Class 对象； 
+			 * ·所有接口类型的名称通过特定的类加载器必须可见换句话说，对于类加载器 cl 和所有接口 i，以下表达式必须为 true：Class.forName(i.getName(), false, cl) == i； 
+			 * ·所有非公共接口必须位于同一包中；
 			 */
 			@SuppressWarnings("deprecation")
 			Class<?> proxyClass = Proxy.getProxyClass(target.getClass().getClassLoader(),
@@ -110,7 +113,7 @@ public class Test_proxy_handler {
 			Object proxy = constructor.newInstance(new InvocationHandler() {
 				@Override
 				public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-					// 发射执行目标对象的方法
+					// 执行目标对象的方法
 					Object result = method.invoke(target, args);
 					// 返回目标对象方法的执行结果
 					return result;

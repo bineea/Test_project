@@ -1,4 +1,4 @@
-package test_project;
+package test_project.basic.reflex;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

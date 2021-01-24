@@ -3,7 +3,7 @@ package test_project.exercise.leetcode;
 import java.util.Stack;
 
 /**
- * 最长连续递增
+ * 最长连续递增子序列
  * @author binee
  *
  */

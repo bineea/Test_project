@@ -22,6 +22,8 @@ import com.alibaba.fastjson.JSON;
 /**
  * @author guowenbin9
  * 通过jsonassert实现json内容对比
+ * 
+ * https://github.com/skyscreamer/JSONassert
  */
 public class Test_jsonValidator {
 

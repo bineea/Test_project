@@ -8,6 +8,11 @@ import java.util.List;
 public class Test_list {
 
 	public static void main(String[] args) {
+		
+
+	}
+	
+	public void list2Sort() {
 		List<Integer> list = new ArrayList<>();
 		list.add(6);
 		list.add(1);
@@ -36,6 +41,16 @@ public class Test_list {
 		});
 		
 		System.out.println(list.toString());
-		
+	}
+	
+	public void listIsNull() {
+		List<List> testList = null;
+		//如果不进行非空校验，直接循环，会抛出空指针异常
+		if(testList != null && !testList.isEmpty()) {
+			for(List list : testList) {
+				System.out.println(list.toString());
+			}
+		}
+		System.out.println("done");
 	}
 }

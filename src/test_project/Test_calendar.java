@@ -3,9 +3,16 @@ package test_project;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Test_calendar {
 	public static void main(String args[]){
+		Test_calendar test = new Test_calendar();
+		test.compareStringAndTimeStamp();
+	}
+
+
+	public void handleCalendar() {
 		Calendar c=Calendar.getInstance();
 		c.set(2016,04,01);
 		Calendar now=Calendar.getInstance();
@@ -64,5 +71,30 @@ public class Test_calendar {
 		
 		SimpleDateFormat sdf123 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
 		System.out.println(sdf123.format(Calendar.getInstance().getTime()));
+	}
+	
+	
+	public void compareStringAndTimeStamp() {
+		try {
+			long now = System.currentTimeMillis();
+			System.out.println("now:"+now);
+			
+			Date now2Date = new Date(now);
+			
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sampleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String nowStr = sampleDateFormat.format(now2Date);
+			
+			Date str2Date = sampleDateFormat.parse(nowStr);
+			System.out.println("str2Date:"+str2Date.getTime());
+			if(now2Date.equals(str2Date)) {
+				System.out.println("==");
+			} else {
+				System.out.println("!=");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }

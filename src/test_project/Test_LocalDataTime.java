@@ -7,8 +7,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
-public class Test_StringTOLocalDataTime {
+public class Test_LocalDataTime {
 	public static void main(String[] args){
+		Test_LocalDataTime test = new Test_LocalDataTime();
+		test.handleString2LocalDateTime();
+	}
+
+	public void handleString2LocalDateTime() {
 		String time1 = "2016-10-24";
 		String time2 = "2017-10-24 14:40:54";
 		String time3 = "0000";
@@ -82,4 +87,5 @@ public class Test_StringTOLocalDataTime {
 		if(w == null)
 			System.out.println("nullÎª¿Õ£¡");
 	}
+	
 }

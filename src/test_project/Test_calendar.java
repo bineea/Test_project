@@ -78,15 +78,15 @@ public class Test_calendar {
 		try {
 			long now = System.currentTimeMillis();
 			System.out.println("now:"+now);
-			
 			Date now2Date = new Date(now);
-			
-			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat sampleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String nowStr = sampleDateFormat.format(now2Date);
+			System.out.println("nowStr:"+nowStr);
 			
 			Date str2Date = sampleDateFormat.parse(nowStr);
 			System.out.println("str2Date:"+str2Date.getTime());
+			String str2DateStr = sampleDateFormat.format(str2Date);
+			System.out.println("str2DateStr:"+str2DateStr);
 			if(now2Date.equals(str2Date)) {
 				System.out.println("==");
 			} else {

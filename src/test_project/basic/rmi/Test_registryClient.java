@@ -21,4 +21,5 @@ public class Test_registryClient {
 			ex.printStackTrace();
 		}
 	}
+	
 }

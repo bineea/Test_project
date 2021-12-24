@@ -3,10 +3,11 @@ package test_project.basic.reflex;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 public class Test_reflex {
 
-	 @SuppressWarnings("rawtypes")
+	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) throws Exception{
 	        //返回A的构造方法
 	        Constructor c = A.class.getConstructor();
@@ -22,11 +23,18 @@ public class Test_reflex {
 	        Method[] ms = A.class.getMethods();
 	        //返回A类所有的方法，包括private
 	        Method[] allMs = A.class.getDeclaredMethods();
+	        for (Method method : allMs) {
+	        	Parameter[] parameters = method.getParameters();
+	        	for (Parameter parameter : parameters) {
+	        		System.out.println("方法名称："+method.getName()+"参数："+parameter.getName());
+	        	}
+	        }
 	        //返回A类的public字段
-	        Field field = A.class.getField("i");
-	        System.out.println(field.get(A.class.newInstance()));
+	        Field field_i = A.class.getField("i");
+	        System.out.println(field_i.get(A.class.newInstance()));
 	        //返回A类的static 字段
-	        System.out.println(field.get(null));
+	        Field field_b = A.class.getField("b");
+	        System.out.println(field_b.get(null));
 	    }
 }
 
@@ -42,5 +50,9 @@ class A{
     
     public void say(){
         System.out.println("say");
+    }
+    
+    public void saySomething(String str){
+        System.out.println("say:"+str);
     }
 }

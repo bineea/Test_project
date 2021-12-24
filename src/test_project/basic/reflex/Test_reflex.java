@@ -26,6 +26,7 @@ public class Test_reflex {
 	        for (Method method : allMs) {
 	        	Parameter[] parameters = method.getParameters();
 	        	for (Parameter parameter : parameters) {
+	        		//反射无法获取方法的参数名称
 	        		System.out.println("方法名称："+method.getName()+"参数："+parameter.getName());
 	        	}
 	        }

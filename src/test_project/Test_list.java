@@ -3,13 +3,17 @@ package test_project;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Test_list {
 
 	public static void main(String[] args) {
-		
-
+		Test_list test = new Test_list();
+		test.listToSort();
 	}
 	
 	public void list2Sort() {
@@ -52,5 +56,26 @@ public class Test_list {
 			}
 		}
 		System.out.println("done");
+	}
+	
+	
+	private void listToSort() {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		map.put(20211021, "20211021");
+		map.put(20211022, "20211022");
+		map.put(20211023, "20211023");
+		map.put(20211024, "20211024");
+		map.put(20211025, "20211025");
+		
+		Set<Integer> keySet = map.keySet();
+		Iterator<Integer> i = keySet.iterator();
+		List<Integer> keyList = new ArrayList();
+		while(i.hasNext()) {
+			Integer integer = i.next();
+			keyList.add(integer);
+		}
+		
+		Collections.sort(keyList);
+		System.out.println(keyList);
 	}
 }

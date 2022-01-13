@@ -8,15 +8,22 @@ public class Test_impl_callable implements Callable<String> {
 
 	@Override
 	public String call() throws Exception {
-		return "执行call方法";
+		throw new Exception("exception test~~~~~~");
+		//return "执行call方法";
 	}
 
-	public static void main(String args[]) throws InterruptedException, ExecutionException {
+	public static void main(String args[]) throws InterruptedException {
 
 		FutureTask<String> future = new FutureTask<String>(new Test_impl_callable());
 		Thread thread = new Thread(future);
 		thread.start();
-		future.get();
+		Thread.sleep(2000);
+		try {
+			String result = future.get();
+			System.out.println("执行future.get()方法，获取返回值："+result+"，并捕获异常");
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

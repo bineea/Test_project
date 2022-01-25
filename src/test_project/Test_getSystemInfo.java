@@ -1,5 +1,6 @@
 package test_project;
 
+import java.lang.management.ManagementFactory;
 
 /**
  * Java实现获取cpu、内存、硬盘、网络等信息
@@ -8,4 +9,8 @@ package test_project;
  */
 public class Test_getSystemInfo {
 	
+	public void get() {
+		ManagementFactory.getMemoryManagerMXBeans();
+		ManagementFactory.getOperatingSystemMXBean();
+	}
 }

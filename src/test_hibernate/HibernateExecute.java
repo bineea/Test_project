@@ -14,6 +14,7 @@ public class HibernateExecute {
 	
 	public void add()
 	{
+		//¶ÁÈ¡hibernate.cfg.xmlÎÄ¼şÅäÖÃ
 		Configuration conf = new Configuration().configure();
 		SessionFactory sf = conf.buildSessionFactory();
 		Session session = sf.openSession();

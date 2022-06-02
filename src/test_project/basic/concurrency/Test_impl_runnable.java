@@ -8,6 +8,9 @@ public class Test_impl_runnable implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		new Thread(new Test_impl_runnable()).run();
+		// 执行run方法
+		new Test_impl_runnable().run();
+		// 启动线程
+		new Thread(new Test_impl_runnable()).start();
 	}
 }

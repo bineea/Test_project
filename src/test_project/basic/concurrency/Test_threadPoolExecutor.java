@@ -1,5 +1,6 @@
 package test_project.basic.concurrency;
 
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +12,7 @@ public class Test_threadPoolExecutor {
 	    ThreadPoolExecutor myThreadPoolExecutor = new ThreadPoolExecutor(Integer.parseInt("1"), Integer.parseInt("1"), 5L, TimeUnit.SECONDS,
 	            new LinkedBlockingQueue<Runnable>(Integer.parseInt("1")), new ThreadPoolExecutor.AbortPolicy());
 	    
-	    myThreadPoolExecutor.submit(new Runnable() {
+	    Future<?> futureFirst = myThreadPoolExecutor.submit(new Runnable() {
 			@Override
 			public void run() {
 				System.out.println("执行第一个线程");
@@ -20,12 +21,17 @@ public class Test_threadPoolExecutor {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
+						System.out.println("第一个线程被中断~~~");
 					}
 				}
 			}
 		});
+	    
+	    // 手动操作任务取消
+	    // futureFirst.cancel(true);
+	    
 	    Thread.sleep(1000);
-	    System.out.println("执行中~~~");
+	    System.out.println("执行中~~~，即将提交第二个线程~~~");
 	    myThreadPoolExecutor.submit(new Runnable() {
 			@Override
 			public void run() {
@@ -40,7 +46,7 @@ public class Test_threadPoolExecutor {
 			}
 		});
 	    Thread.sleep(1000);
-	    System.out.println("执行中~~~");
+	    System.out.println("执行中~~~，即将提交第三个线程~~~");
 	    myThreadPoolExecutor.submit(new Runnable() {
 			@Override
 			public void run() {

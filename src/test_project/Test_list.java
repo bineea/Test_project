@@ -13,7 +13,7 @@ public class Test_list {
 
 	public static void main(String[] args) {
 		Test_list test = new Test_list();
-		test.listToSort();
+		test.list2Remove();
 	}
 	
 	public void list2Sort() {
@@ -77,5 +77,56 @@ public class Test_list {
 		
 		Collections.sort(keyList);
 		System.out.println(keyList);
+	}
+	
+	
+	/**
+	 * remove all 将会把重复的值全部移除
+	 */
+	private void list2Remove() {
+		List<Integer> list1 = new ArrayList<>();
+		list1.add(6);
+		list1.add(1);
+		list1.add(10);
+		list1.add(3);
+		list1.add(null);
+		list1.add(0);
+		list1.add(16);
+		list1.add(26);
+		list1.add(6);
+		list1.add(5);
+		
+		List<Integer> list2 = new ArrayList<>();
+		list2.add(6);
+		list2.add(1);
+		list2.add(10);
+		list2.add(3);
+		list2.add(null);
+		
+		List<Integer> list3 = new ArrayList<>();
+		list2.add(60);
+		list2.add(10);
+		list2.add(100);
+		list2.add(30);
+		
+		List<Integer> list4 = new ArrayList<>();
+		list4.add(0);
+		list4.add(16);
+		list4.add(26);
+		list4.add(5);
+		list4.add(30);
+
+		list1.removeAll(list2);
+		for (Integer i : list1) {
+			System.out.println("remove list2："+i);
+		}
+		list1.removeAll(list3);
+		for (Integer i : list1) {
+			System.out.println("remove list3："+i);
+		}
+		list1.removeAll(list4);
+		for (Integer i : list1) {
+			System.out.println("remove list4："+i);
+		}
 	}
 }

@@ -1,8 +1,16 @@
 package test_project.basic.concurrency;
 
+import org.openjdk.jol.info.ClassLayout;
+
 public class Test_synchronized {
 
 	private Object lock = new Object();
+	
+	public static void main(String[] args) {
+		
+		Test_synchronized test = new Test_synchronized();
+		test.testSynchronizedHeader();
+	}
 	
 	public void testWait() {
 		
@@ -20,9 +28,17 @@ public class Test_synchronized {
 		
 	}
 	
-	public static void main(String[] args) {
-		
-		Test_synchronized test = new Test_synchronized();
-		test.testWait();
+	/**
+	 * 通过jol-core查看java对象内存布局
+	 */
+	public void testSynchronizedHeader() {
+		Object object = new Object();
+        System.out.println(ClassLayout.parseInstance(object).toPrintable());
+
+        synchronized (object) {
+            System.out.println(ClassLayout.parseInstance(object).toPrintable());
+        }
 	}
+	
+
 }

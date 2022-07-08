@@ -5,8 +5,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -66,12 +69,63 @@ public class Test_reflex_to_compare_object {
 		return compareResult;
 	}
 	
+	/**
+	 * 优化toCompareData方法，通过map避免嵌套循环
+	 */
+	private static Map<Field, Object>  compareProperties(Object based, Object compared, String... ignoreProperties) {
+        Map<Field, Object> compareResult = new HashMap<Field, Object>();
+        try {
+            Class<?> basedClass = based.getClass();
+            Class<?> comparedClass = compared.getClass();
+            Class<?> basedSuperclass = basedClass.getSuperclass();
+            Class<?> comparedSuperclass = comparedClass.getSuperclass();
+
+            List<Field> basedFields = new ArrayList<Field>(Arrays.asList(basedClass.getDeclaredFields()));
+            List<Field> comparedFields = new ArrayList<Field>(Arrays.asList(comparedClass.getDeclaredFields()));
+            List<String> ignorePropertyList = Arrays.asList(ignoreProperties);
+
+            while(basedSuperclass != null) {
+                basedFields.addAll(Arrays.asList(basedSuperclass.getDeclaredFields()));
+                basedSuperclass = basedSuperclass.getSuperclass();
+            }
+            while(comparedSuperclass != null) {
+                comparedFields.addAll(Arrays.asList(comparedSuperclass.getDeclaredFields()));
+                comparedSuperclass = comparedSuperclass.getSuperclass();
+            }
+            
+            Map<String, Field> basedFieldMap = basedFields.stream().collect(Collectors.toMap(field -> field.getName(), field -> field, (k1, k2) -> k2));
+            Map<String, Field> comparedFieldMap = comparedFields.stream().collect(Collectors.toMap(field -> field.getName(), field -> field, (k1, k2) -> k2));
+
+            Set<String> basedFieldNameSet = basedFieldMap.keySet();
+            Set<String> comparedFieldNameSet = comparedFieldMap.keySet();
+            Set<String> ignorePropertySet = new HashSet<>(Arrays.asList(ignoreProperties));
+
+            basedFieldNameSet.retainAll(comparedFieldNameSet);
+            basedFieldNameSet.removeAll(ignorePropertySet);
+            if (basedFieldNameSet.size() <= 0) {
+                return compareResult;
+            }
+            for (String basedFieldName : basedFieldNameSet) {
+                Field basedField = basedFieldMap.get(basedFieldName);
+                basedField.setAccessible(true);
+                Field comparedField = comparedFieldMap.get(basedFieldName);
+                comparedField.setAccessible(true);
+                if(!Objects.equals(basedField.get(based), comparedField.get(compared))) {
+                    compareResult.put(basedField, basedField.get(based));
+                }
+            }
+            return compareResult;
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+	
 	public static void main(String[] args) {
 		try {
 			Test_reflex_to_compare_object test = new Test_reflex_to_compare_object();
 			Test_A test_a = new Test_A("test_name", "test_idCode");
 			Test_B test_b = new Test_B("test_name", "test_idCode", LocalDateTime.now());
-			Map<Field, Object> result = test.toCompareData(test_a, test_b);
+			Map<Field, Object> result = test.compareProperties(test_a, test_b);
 			for(Field field : result.keySet())
 			{
 				System.out.println(field.getAnnotation(NonNull.class));
@@ -79,10 +133,7 @@ public class Test_reflex_to_compare_object {
 					System.out.println(field.getAnnotation(NonNull.class).toString());
 				System.out.println("信息不一致，based信息属性："+field.getName()+"；内容："+String.valueOf(result.get(field)));
 			}
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

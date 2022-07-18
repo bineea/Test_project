@@ -10,9 +10,10 @@ public class Test_bigdecimal {
 	public static void main(String[] args) {
 		Test_bigdecimal test = new Test_bigdecimal();
 		BigDecimal bigdecimal = new BigDecimal("10001.000");
-		System.out.println(test.formatSeparate1(bigdecimal));
-		System.out.println(test.formatSeparate2(bigdecimal));
-		System.out.println(test.formatSeparate3(bigdecimal));
+//		System.out.println(test.formatSeparate1(bigdecimal));
+//		System.out.println(test.formatSeparate2(bigdecimal));
+//		System.out.println(test.formatSeparate3(bigdecimal));
+		test.testAdd();
 	}
 	
 	/**
@@ -44,5 +45,17 @@ public class Test_bigdecimal {
 		return String.format(formatter.format(bigdecimal));
 	}
 	
+	
+	private void testAdd() {
+		BigDecimal bd1 = BigDecimal.ZERO;
+		BigDecimal bd2 = new BigDecimal("9000001000000000000");
+		System.out.println(bd1);
+		System.out.println(bd1.add(bd2));
+		System.out.println(bd1);
+		
+		BigDecimal bd3 = bd1.add(bd2);
+		BigDecimal bd4 = bd1.add(bd2);
+		System.out.println(bd3.equals(bd4));
+	}
 
 }

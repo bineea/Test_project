@@ -25,6 +25,15 @@ import org.springframework.lang.NonNull;
  */
 public class Test_reflex_to_compare_object {
 
+	/**
+	 * ʵ�ֽϴֲ�
+	 * @param based
+	 * @param compared
+	 * @return
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
+	@Deprecated
 	public Map<Field, Object> toCompareData(Object based, Object compared) throws IllegalArgumentException, IllegalAccessException {
 		Map<Field, Object> compareResult = new HashMap<Field, Object>();
 		Class<?> basedClass = based.getClass();
@@ -75,22 +84,18 @@ public class Test_reflex_to_compare_object {
 	private static Map<Field, Object>  compareProperties(Object based, Object compared, String... ignoreProperties) {
         Map<Field, Object> compareResult = new HashMap<Field, Object>();
         try {
-            Class<?> basedClass = based.getClass();
-            Class<?> comparedClass = compared.getClass();
-            Class<?> basedSuperclass = basedClass.getSuperclass();
-            Class<?> comparedSuperclass = comparedClass.getSuperclass();
-
-            List<Field> basedFields = new ArrayList<Field>(Arrays.asList(basedClass.getDeclaredFields()));
-            List<Field> comparedFields = new ArrayList<Field>(Arrays.asList(comparedClass.getDeclaredFields()));
-            List<String> ignorePropertyList = Arrays.asList(ignoreProperties);
-
-            while(basedSuperclass != null) {
-                basedFields.addAll(Arrays.asList(basedSuperclass.getDeclaredFields()));
-                basedSuperclass = basedSuperclass.getSuperclass();
+        	if (based == null || compared == null) {
+        		return compareResult;
+        	}
+        	
+        	List<Field> basedFields = new ArrayList<Field>();
+        	 List<Field> comparedFields = new ArrayList<Field>();
+            for (Class<?> basedClass = based.getClass(); basedClass != Object.class; basedClass = basedClass.getSuperclass()) {
+            	basedFields.addAll(Arrays.asList(basedClass.getDeclaredFields()));
             }
-            while(comparedSuperclass != null) {
-                comparedFields.addAll(Arrays.asList(comparedSuperclass.getDeclaredFields()));
-                comparedSuperclass = comparedSuperclass.getSuperclass();
+            
+            for (Class<?> comparedClass = compared.getClass(); comparedClass != Object.class; comparedClass = comparedClass.getSuperclass()) {
+            	comparedFields.addAll(Arrays.asList(comparedClass.getDeclaredFields()));
             }
             
             Map<String, Field> basedFieldMap = basedFields.stream().collect(Collectors.toMap(field -> field.getName(), field -> field, (k1, k2) -> k2));

@@ -13,7 +13,8 @@ public class Test_bigdecimal {
 //		System.out.println(test.formatSeparate1(bigdecimal));
 //		System.out.println(test.formatSeparate2(bigdecimal));
 //		System.out.println(test.formatSeparate3(bigdecimal));
-		test.testAdd();
+//		test.testAdd();
+//		test.testDivide();
 	}
 	
 	/**
@@ -56,6 +57,15 @@ public class Test_bigdecimal {
 		BigDecimal bd3 = bd1.add(bd2);
 		BigDecimal bd4 = bd1.add(bd2);
 		System.out.println(bd3.equals(bd4));
+	}
+	
+	private void testDivide() {
+		BigDecimal bd1 = new BigDecimal("10");
+		BigDecimal bd2 = new BigDecimal("3");
+		
+		//除法结果为无限小数，则需要指定保留小数位
+		System.out.println(bd1.divide(bd2));
+		//System.out.println(bd1.divide(bd2, 8));
 	}
 
 }

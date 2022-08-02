@@ -8,8 +8,9 @@ public class Test_impl_callable implements Callable<String> {
 
 	@Override
 	public String call() throws Exception {
+		System.out.println("excute~~~~~~");
 		throw new Exception("exception test~~~~~~");
-		//return "执行call方法";
+//		return "执行call方法";
 	}
 
 	public static void main(String args[]) throws InterruptedException {
@@ -20,8 +21,9 @@ public class Test_impl_callable implements Callable<String> {
 		Thread.sleep(2000);
 		try {
 			String result = future.get();
-			System.out.println("执行future.get()方法，获取返回值："+result+"，并捕获异常");
+			System.out.println("执行future.get()方法，获取返回值："+result);
 		} catch (ExecutionException e) {
+			System.out.println("执行future.get()方法，并捕获异常");
 			e.printStackTrace();
 		}
 	}

@@ -1,6 +1,7 @@
 package test_project;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -14,7 +15,7 @@ public class Test_bigdecimal {
 //		System.out.println(test.formatSeparate2(bigdecimal));
 //		System.out.println(test.formatSeparate3(bigdecimal));
 //		test.testAdd();
-//		test.testDivide();
+		test.testDivide();
 	}
 	
 	/**
@@ -60,12 +61,15 @@ public class Test_bigdecimal {
 	}
 	
 	private void testDivide() {
-		BigDecimal bd1 = new BigDecimal("10");
+		BigDecimal bd1 = new BigDecimal("10.0");
 		BigDecimal bd2 = new BigDecimal("3");
+		BigDecimal bd11 = new BigDecimal("10");
+		BigDecimal bd21 = new BigDecimal("3");
 		
 		//除法结果为无限小数，则需要指定保留小数位
-		System.out.println(bd1.divide(bd2));
-		//System.out.println(bd1.divide(bd2, 8));
+		//System.out.println(bd1.divide(bd2));
+		System.out.println(bd1.divide(bd2, RoundingMode.HALF_UP));
+		System.out.println(bd11.divide(bd21, RoundingMode.HALF_UP));
 	}
 
 }

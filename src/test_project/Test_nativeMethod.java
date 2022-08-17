@@ -1,13 +1,13 @@
 package test_project;
 
 /**
- * 瀹炵幇JNI,鍗矹ava Native Interface鏂规硶
+ * 实现JNI,即Java Native Interface方法
  * @author binee
  *
  */
 public class Test_nativeMethod {
 	
-	//閫氳繃native鍏抽敭瀛楀畾涔塶ative鏂规硶锛屼笖涓嶆彁渚涙柟娉曞疄鐜帮紝鐩稿綋浜巎ava interface锛涘洜涓烘柟娉曞疄鐜扮敱闈瀓ava璇█瀹炵幇
+	//通过native关键字定义native方法，且不提供方法实现，相当于java interface；因为方法实现由非java语言实现
 	private native void helloworld();
 	
 	public static void main(String[] args) {

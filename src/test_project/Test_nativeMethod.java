@@ -8,7 +8,7 @@ package test_project;
  */
 public class Test_nativeMethod {
 	
-	private static final String JNI_LIB_NAME = "myfirstjnilibrary";
+	private static final String JNI_LIB_NAME = "helloworld";
 	
 	//通过native关键字定义native方法，且不提供方法实现，相当于java interface；因为方法实现由非java语言实现
 	private native void helloworld();

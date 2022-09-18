@@ -8,21 +8,22 @@ import java.util.List;
 
 public class Test_oom_heap {
 	
-	static class OOMObject
-	{
-		
-	}
-	
 	public static void main(String[] args) throws InterruptedException
 	{
 		Thread thread = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				List<OOMObject> list = new ArrayList<OOMObject>();
+				List<byte[]> list = new ArrayList<byte[]>();
 				while(true)
 				{
-					list.add(new OOMObject());
+					System.out.println(Thread.currentThread().getName());
+					list.add(new byte[1024 * 1024 * 1]);
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
